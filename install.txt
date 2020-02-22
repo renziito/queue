@@ -1,0 +1,14 @@
+#On Mysql
+CREATE USER 'queueUser'@'localhost' IDENTIFIED BY 'us3rp4ssw0rd';
+CREATE DATABASE db_queue;
+GRANT ALL PRIVILEGES ON db_queue.* TO 'queueUser'@'localhost';
+flush privileges;
+
+#On terminal at the project directory
+composer install
+mkdir assets
+chmod 777 assets
+mkdir protected/runtime
+chmod 777 protected/runtime
+php protected/yiic.php migrate up
+

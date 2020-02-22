@@ -1,0 +1,16 @@
+{
+    "name": "renziito/queue",
+    "description": "Queue for SE",
+    "type": "project",
+    "require": {
+        "yiisoft/yii": "^1.1",
+        "guzzlehttp/guzzle": "^6.5",
+        "league/oauth2-client": "^2.4"
+    },
+    "authors": [
+        {
+            "name": "Renziito",
+            "email": "sepia.aki@gmail.com"
+        }
+    ]
+}
