@@ -6,12 +6,18 @@ return array(
     'theme' => 'classic',
     'sourceLanguage' => 'en',
     'preload' => array('log'),
+    'import'         => array(
+        'application.models.*',
+        'application.components.*',
+        'application.extensions.*'
+    ),
     'modules' => array(
         'gii' => array(
             'class' => 'system.gii.GiiModule',
-            'password' => 'Enter Your Password Here',
+            'password' => 'password',
             'ipFilters' => array('127.0.0.1', '::1'),
         ),
+        'api'
     ),
     'components' => array(
         'user' => array(
@@ -28,7 +34,8 @@ return array(
         ),
         'db' => require(dirname(__FILE__) . '/database.php'),
         'errorHandler' => array(
-            'errorAction' => YII_DEBUG ? null : 'site/error',
+            // 'errorAction' => YII_DEBUG ? null : 'site/error',
+            'errorAction' =>  'site/error',
         ),
         'log' => array(
             'class' => 'CLogRouter',
