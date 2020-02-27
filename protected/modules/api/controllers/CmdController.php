@@ -120,14 +120,14 @@ class CmdController extends Controller {
 
         $alreadyIn = QQueue::checkAlreadyIn($user, $isOpen->id);
         if (!$alreadyIn) {
-            echo "You are not currently in the queue";
+            echo $user.", you are not currently in the queue";
             Yii::app()->end();
         }
 
         $alreadyIn->remove = 1;
 
         if ($alreadyIn->save()) {
-            echo "You have left the queue";
+            echo $user. " have left the queue";
         } else {
             echo "Something happen, please try again";
         }
