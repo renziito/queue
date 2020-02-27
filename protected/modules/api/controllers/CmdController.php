@@ -152,18 +152,17 @@ class CmdController extends Controller {
     }
 
     /*
-      !bottom - User can use this to bump themselves
-      down to the bottom of the list. ie: If they're
-      first and there's 4 people in queue, they are
-      now the 4th place in queue and the person who was 2nd is now 1st.
+      !remove Twitchname - this removes the specified
+      twitch name from the queue. Also a mod only command
+      set via the stream elements custom command setting.
 
-      Output to chat will be: You have been moved to
-      the bottom of the queue, your position is now #.
-      If they are not in the queue: You are currently
-      not in the queue, use !join if you'd like to join the queue.
+      Chat output: Twitchname has been removed from the queue.
+      If the user is not in the queue the chat output
+      would be: Twitchname is not currently in the queue
+      so they can not be removed.
      */
 
-    public function actionBottom() {
+    public function actionRemove() {
         $arr = ['id' => 1];
         echo json_encode($arr);
     }
@@ -183,22 +182,6 @@ class CmdController extends Controller {
      */
 
     public function actionNext() {
-        $arr = ['id' => 1];
-        echo json_encode($arr);
-    }
-
-    /*
-      !remove Twitchname - this removes the specified
-      twitch name from the queue. Also a mod only command
-      set via the stream elements custom command setting.
-
-      Chat output: Twitchname has been removed from the queue.
-      If the user is not in the queue the chat output
-      would be: Twitchname is not currently in the queue
-      so they can not be removed.
-     */
-
-    public function actionRemove() {
         $arr = ['id' => 1];
         echo json_encode($arr);
     }
@@ -224,17 +207,18 @@ class CmdController extends Controller {
     }
 
     /*
-      !list - This just prints a URL to the webpage that shows
-      the current queue and top 10 most played/queued users.
+      !bottom - User can use this to bump themselves
+      down to the bottom of the list. ie: If they're
+      first and there's 4 people in queue, they are
+      now the 4th place in queue and the person who was 2nd is now 1st.
 
-      Chat output: https://neonpuddles.com/queue/
-
-      I have attached a rough output that would be shown
-      on the webpage - you do not need to worry about css styling
-      or anything, I can do that after it is finished.
+      Output to chat will be: You have been moved to
+      the bottom of the queue, your position is now #.
+      If they are not in the queue: You are currently
+      not in the queue, use !join if you'd like to join the queue.
      */
 
-    public function actionList() {
+    public function actionBottom() {
         $arr = ['id' => 1];
         echo json_encode($arr);
     }
