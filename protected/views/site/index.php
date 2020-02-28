@@ -9,7 +9,7 @@ $this->pageTitle=Yii::app()->name;
 <?php if ($current) :?>
     <ol>
     <?php foreach ($current as $c) :?>
-        <?php  $args = ($c->args!=null)?' - "'.$c->args.'"':'';;?>
+        <?php  $args = ($c->args!=null)?' - "'.$c->args.'"':'';?>
         <li><?=$c->username . $args?></li>
     <?php endforeach;?>
     </ol>
