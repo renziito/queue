@@ -19,7 +19,7 @@
                             <span class="hint-text">Copyright &copy; <?= date('Y') ?> </span>
                             <span class="font-montserrat"><?= $_SERVER['HTTP_HOST'] ?></span>.
                             <span class="hint-text">All rights reserved. </span>
-                            <span class="hint-text">Made with Love <i class="fas fa-heart"></i></span>
+                            <span class="hint-text">Made with Love <i class="fas fa-heart text-danger"></i></span>
                         </p>
                         <div class="clearfix"></div>
                     </div>
