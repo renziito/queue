@@ -7,12 +7,12 @@ $this->pageTitle=Yii::app()->name;
 <h1>Current Queue</h1>
 
 <?php if ($current) :?>
-    <ul>
+    <ol>
     <?php foreach ($current as $c) :?>
-        <?php Utils::show($c);?>
-        <li></li>
+        <?php  $args = ($c->args!=null)?' - "'.$c->args.'"':'';;?>
+        <li><?=$c->username . $args?></li>
     <?php endforeach;?>
-    </ul>
+    </ol>
 <?php else :?>
     <p>The queue is currently empty</p>
 <?php endif;?>
