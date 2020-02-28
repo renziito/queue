@@ -38,24 +38,28 @@ class QQueue
         return false;
     }
 
-    public static function getMostPlayed()
+    public static function getMostPlayed($limit = 5, $text = true)
     {
         $params = 'state = true and play = true and ';
         $params .= 'remove = false';
 
         $queue = QueueList::model()->findAll([
             'select'=> 'username, count(*) as play',
-            'order'=>'2 desc  LIMIT 5',
+            'order'=>'2 desc  LIMIT '.$limit,
             'group'=>'username',
             'condition'=>$params
         ]);
-        $result = "";
+        if ($text) {
+            $result = "";
 
-        foreach ($queue as $k => $q) {
-            $result .= ($k+1) .'. '. $q->username;
-            $result .= ' ('.$q->play.' games), ';
+            foreach ($queue as $k => $q) {
+                $result .= ($k+1) .'. '. $q->username;
+                $result .= ' ('.$q->play.' games), ';
+            }
+            return trim($result, ', ');
+        } else {
+            return $queue;
         }
-        return trim($result, ', ');
     }
 
     public static function getOrder($userId, $id)
@@ -65,5 +69,19 @@ class QQueue
         $params.= 'id <= '.$userId;
         $queue = QueueList::model()->count($params);
         return $queue;
+    }
+
+    public static function getCurrent()
+    {
+        $queue = self::verifyOpen();
+        $result = [];
+        if ($queue) {
+            $params = 'queue_id = ' . $queue->id . ' AND state = true';
+            $params .= ' and  play = false and remove = false ';
+            $params .= 'ORDER BY register_date ASC';
+            return QueueList::model()->findAll($params);
+        }
+
+        return $result;
     }
 }

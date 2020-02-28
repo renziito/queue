@@ -4,12 +4,15 @@ class SiteController extends Controller
 {
 
     /**
-     * This is the default 'index' action that is invoked
-     * when an action is not explicitly requested by users.
+     * To change the view you have to edit
+     * protectec/view/site/index.php
      */
     public function actionIndex()
     {
-        $this->render('index');
+        $this->render('index', [
+            'current' =>QQueue::getCurrent(),
+            'top'=> QQueue::getMostPlayed(10, false)
+        ]);
     }
 
     /**
