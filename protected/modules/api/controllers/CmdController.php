@@ -1,7 +1,6 @@
 <?php
 
-class CmdController extends Controller
-{
+class CmdController extends Controller {
     /*
       !open - command is used to open the queue.
       Output to chat will be "Queue is now opened"
@@ -9,8 +8,7 @@ class CmdController extends Controller
       "Queue is already open".
      */
 
-    public function actionOpen()
-    {
+    public function actionOpen() {
         $isOpen = QQueue::verifyOpen();
         if ($isOpen) {
             echo UQueue::MSG_ALREADYOPEN;
@@ -38,8 +36,7 @@ class CmdController extends Controller
       If it is open already closed "Queue is already closed".
      */
 
-    public function actionClose()
-    {
+    public function actionClose() {
         $isOpen = QQueue::verifyOpen();
         if (!$isOpen) {
             echo UQueue::MSG_ALREADYCLOSE;
@@ -70,8 +67,7 @@ class CmdController extends Controller
       If thequeue is closed: "Queue is closed, you can not join it."
      */
 
-    public function actionJoin()
-    {
+    public function actionJoin() {
         $user = Yii::app()->request->getQuery('user', false);
         if (!$user) {
             echo UQueue::MSG_ERROR;
@@ -83,24 +79,24 @@ class CmdController extends Controller
             echo UQueue::MSG_CLOSEONJOIN;
             Yii::app()->end();
         }
-        
+
         $alreadyIn = QQueue::checkAlreadyIn($user, $isOpen->id);
         if ($alreadyIn) {
             $orden = QQueue::getOrder($alreadyIn->id, $isOpen->id);
-            echo str_replace(['{order}','{user}'], [$orden, $user], UQueue::MSG_ALREADYIN);
+            echo str_replace(['{order}', '{user}'], [$orden, $user], UQueue::MSG_ALREADYIN);
             Yii::app()->end();
         }
-        
+        $args = Yii::app()->request->getQuery('args', null);
         $q = new QueueList();
         $q->queue_id = $isOpen->id;
         $q->username = $user;
-        $q->args = Yii::app()->request->getQuery('args', null);
+        $q->args = ($args != '$null' ? $args : null);
         $q->register_date = date('Y-m-d H:i:s');
         $q->order = 0;
         if ($q->save()) {
             $q->order = QQueue::getOrder($q->id, $isOpen->id);
             $q->update();
-            echo str_replace(['{order}','{user}'], [$q->order, $user], UQueue::MSG_ADDED);
+            echo str_replace(['{order}', '{user}'], [$q->order, $user], UQueue::MSG_ADDED);
         } else {
             echo UQueue::MSG_ERROR;
         }
@@ -112,8 +108,7 @@ class CmdController extends Controller
       If they are not in the queue: You are not currently in the queue
      */
 
-    public function actionLeave()
-    {
+    public function actionLeave() {
         $user = Yii::app()->request->getQuery('user', false);
         if (!$user) {
             echo UQueue::MSG_ERROR;
@@ -149,8 +144,7 @@ class CmdController extends Controller
       Chat output: Queue has been cleared.
      */
 
-    public function actionClear()
-    {
+    public function actionClear() {
         $isOpen = QQueue::verifyOpen();
         if (!$isOpen) {
             echo UQueue::MSG_CLOSEONCLEAR;
@@ -172,8 +166,7 @@ class CmdController extends Controller
       not in the queue, use !join if you'd like to join the queue.
      */
 
-    public function actionBottom()
-    {
+    public function actionBottom() {
         $user = Yii::app()->request->getQuery('user', false);
         if (!$user) {
             echo UQueue::MSG_ERROR;
@@ -204,7 +197,7 @@ class CmdController extends Controller
             if ($q->save()) {
                 $q->order = QQueue::getOrder($q->id, $isOpen->id);
                 $q->update();
-                echo str_replace(['{order}','{user}'], [$q->order, $user], UQueue::MSG_NEWORDER);
+                echo str_replace(['{order}', '{user}'], [$q->order, $user], UQueue::MSG_NEWORDER);
             } else {
                 echo UQueue::MSG_ERROR;
             }
@@ -224,8 +217,7 @@ class CmdController extends Controller
       so they can not be removed.
      */
 
-    public function actionRemove()
-    {
+    public function actionRemove() {
         $user = Yii::app()->request->getQuery('user', false);
         if (!$user) {
             echo UQueue::MSG_ERROR;
@@ -267,8 +259,7 @@ class CmdController extends Controller
       would be: The queue is currently empty.
      */
 
-    public function actionNext()
-    {
+    public function actionNext() {
         $isOpen = QQueue::verifyOpen();
         if (!$isOpen) {
             echo UQueue::MSG_ALREADYCLOSE;
@@ -281,7 +272,7 @@ class CmdController extends Controller
             $next->play = 1;
 
             if ($next->save()) {
-                $args = ($next->args!=null)?' - "'.$next->args.'"':'';
+                $args = ($next->args != null) ? ' - "' . $next->args . '"' : '';
                 $user = $next->username . $args;
                 echo str_replace('{user}', $user, UQueue::MSG_NEXT);
             } else {
@@ -307,9 +298,9 @@ class CmdController extends Controller
       (29 games).
      */
 
-    public function actionMostPlayed()
-    {
+    public function actionMostPlayed() {
         $most = QQueue::getMostPlayed();
         echo "Most games played: " . $most;
     }
+
 }
