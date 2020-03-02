@@ -150,7 +150,8 @@ class CmdController extends Controller {
             echo UQueue::MSG_CLOSEONCLEAR;
             Yii::app()->end();
         }
-        QueueList::model()->updateAll(['remove' => 1], 'queue_id = ' . $isOpen->id);
+        $param = 'play != 1 AND queue_id = ' . $isOpen->id;
+        QueueList::model()->updateAll(['remove' => 1], $param);
         echo UQueue::MSG_CLEARED;
     }
 
