@@ -12,10 +12,12 @@ class DbController extends Controller {
         $json = file_get_contents('php://input');
         $data = json_decode($json);
 
-
-        Utils::show($data);
-        $event->attributes = $data;
-        echo json_encode($event->attributes);
+        $event->type = $data->type;
+        $event->username = $data->username;
+        $event->text = $data->text;
+        $event->gift = $data->gift;
+        $event->receiver = $data->receiver;
+        $event->amount = $data->amount;
         $event->save();
         echo json_encode($event->getErrors());
     }
