@@ -1,3 +1,5 @@
+== v1.0
+
 #On Mysql
 CREATE USER 'queueUser'@'localhost' IDENTIFIED BY 'us3rp4ssw0rd';
 CREATE DATABASE db_queue;
@@ -12,3 +14,21 @@ mkdir protected/runtime
 chmod 777 protected/runtime
 php protected/yiic.php migrate up
 
+
+== v2.0
+##IMPORTANT
+#The server MUST have HTTPS, if not check:
+#https://letsencrypt.org/es/docs/
+#https://punchsalad.com/ssl-certificate/install-lets-encrypt-godaddy/
+
+#On public_html
+mv queue app
+
+#On terminal at the project directory
+php protected/yiic.php migrate up
+git pull
+
+
+#On SE commands
+Change the URL from "/queue/api/cmd/" to "/app/cmd/queu/"
+Add new commands 
