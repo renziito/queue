@@ -17,7 +17,12 @@ class DbController extends Controller {
         $event->gift = $data->gift;
         $event->receiver = $data->receiver;
         $event->amount = $data->amount;
-        $event->save();
+        $event->register_event = date('Y-m-d H:i:s');
+        if ($event->save()) {
+            echo 'OK';
+        } else {
+            echo json_encode($event->getErrors());
+        }
     }
 
     public function actionQuery() {
