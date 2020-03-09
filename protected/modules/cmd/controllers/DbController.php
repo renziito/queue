@@ -9,7 +9,9 @@ class DbController extends Controller {
         
         $event = new Event;
         $event->attributes = $_POST;
+        echo json_encode($event->attributes);
         $event->save();
+        echo json_encode($event->getErrors());
     }
 
     public function actionQuery() {
