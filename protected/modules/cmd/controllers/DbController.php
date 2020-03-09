@@ -8,7 +8,8 @@ class DbController extends Controller {
         header("Access-Control-Allow-Headers: Authorization");
         
         $event = new Event;
-        $event->attributes = $_POST;
+        Utils::show($_POST);
+        $event->attributes = json_decode($_POST);
         echo json_encode($event->attributes);
         $event->save();
         echo json_encode($event->getErrors());
