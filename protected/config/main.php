@@ -2,7 +2,7 @@
 
 return array(
     'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
-    'name' => 'Queue',
+    'name' => 'NeonPuddles',
     'theme' => 'classic',
     'sourceLanguage' => 'en',
     'preload' => array('log'),
@@ -17,7 +17,7 @@ return array(
             'password' => 'password',
             'ipFilters' => array('127.0.0.1', '::1'),
         ),
-        'api'
+        'api', 'queue', 'cmd'
     ),
     'components' => array(
         'user' => array(
