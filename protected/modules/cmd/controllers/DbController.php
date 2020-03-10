@@ -32,7 +32,7 @@ class DbController extends Controller {
 
         $sql = "SELECT count(*) FROM event WHERE state = 1 AND text like " . $searchable;
 
-        echo Yii::app()->db->createCommand($sql)->queryScalar();
+        echo Yii::app()->db->createCommand($sql)->getText();
     }
 
 }
