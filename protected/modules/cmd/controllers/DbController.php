@@ -27,12 +27,12 @@ class DbController extends Controller {
 
     public function actionSearch() {
         $query = Yii::app()->request->getQuery('query');
-        $words = explode("|", $query);
+        $words = explode("&", $query);
         $searchable = "'%" . implode("%' or  text like '%", str_replace('+', ' ', $words)) . "%'";
 
         $sql = "SELECT count(*) FROM event WHERE state = 1 AND text like " . $searchable;
 
-        echo Yii::app()->db->createCommand($sql)->getText();
+        echo Yii::app()->db->createCommand($sql)->queryScalar();
     }
 
 }
