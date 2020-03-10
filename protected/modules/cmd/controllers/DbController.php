@@ -29,7 +29,10 @@ class DbController extends Controller {
         $query = Yii::app()->request->getQuery('query');
         $words = explode("|", $query);
         $searchable = "'%" . implode("%' or  text like '%", str_replace('+', ' ', $words)) . "%'";
-        echo Event::model()->count("state = 1 AND text like " . $searchable);
+
+        $sql = "SELECT count(*) FROM event WHERE state = 1 AND text like " . $searchable;
+
+        echo Yii::app()->db->createCommand($sql)->getText();
     }
 
 }
