@@ -33,8 +33,9 @@ class TopController extends Controller {
 
     public function actionGifter() {
         $limit = Yii::app()->request->getQuery("limit", 5);
-        $sql = "SELECT distinct(username),amount as total FROM event WHERE";
-        $sql .= " type = 'subscriber' AND state = 1 and gift = 1 ORDER BY amount desc LIMIT " . $limit;
+        $sql = "SELECT username, SUM(CASE amount WHEN 0 THEN 1 ELSE amount END) total FROM (";
+        $sql .= "SELECT * FROM db_queue.event WHERE gift = 1 AND state = 1 AND type = 'event') as f";
+        $sql .= " GROUP BY username ORDER BY 2 desc LIMIT " . $limit;
 
         $gifters = $cmd = Yii::app()->db->createCommand($sql)->queryAll();
         $response = "";
