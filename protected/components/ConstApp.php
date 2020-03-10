@@ -2,8 +2,8 @@
 class ConstApp
 {
     const URLAPI = "https://api.streamelements.com/kappa/v2/";
-    const JWTTOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNWQ3ZjkxYjc4Nzg2ZmI2MTNjOGYwZDc5IiwiY2hhbm5lbCI6IjVkMjI3MjBhNWRlMTA4MTMzNzc5OWEwNiIsInJvbGUiOiJvd25lciIsImF1dGhUb2tlbiI6Im1Cekh2LUNnd0Zkd29BTmRkT1FZU2FhdkpEYVFiSndKS1lQN2hnQThIOF9FekxDQyIsImlhdCI6MTU4MzQzNzQwNiwiaXNzIjoiU3RyZWFtRWxlbWVudHMifQ.uNbdtChz8xTOyiOQzw3pQzW-uf8xqUehuvxxtvaBhRY";
-    const CLIENID = "5d22720a5de1081337799a06";
+    const JWTTOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eJ1c2VyIjoiNWQ3ZjkxYjc4Nzg2ZmI2MTNjOGYwZDc5IiwiY2hhbm5lbCI6IjVkMjI3MjBhNWRlMTA4MTMzNzc5OWEwNiIsInJvbGUiOiJvd25lciIsImF1dGhUb2tlbiI6Im1Cekh2LUNnd0Zkd29BTmRkT1FZU2FhdkpEYVFiSndKS1lQN2hnQThIOF9FekxDQyIsImlhdCI6MTU4MzQzNzQwNiwiaXNzIjoiU3RyZWFtRWxlbWVudHMifQ.uNbdtChz8xTOyiOQzw3pQzW-uf8xqUehuvxxtvaBhRY";
+    const CLIENID = "5d22720a5de1081337799a0";
 
     const MSG_ERROR = "Something happen, please try again";
     const MSG_ALREADYOPEN = "Queue is already open";
