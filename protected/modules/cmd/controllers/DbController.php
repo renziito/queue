@@ -30,9 +30,9 @@ class DbController extends Controller {
         $words = explode("&", $query);
         $searchable = "'%" . implode("%' or  text like '%", str_replace('+', ' ', $words)) . "%'";
 
-        $sql = "SELECT count(*) FROM event WHERE state = 1 AND (text like " . $searchable.")";
+        $sql = "SELECT count(*) FROM event WHERE state = 1 AND (text like " . $searchable . ")";
 
-        echo Yii::app()->db->createCommand($sql)->getText();
+        echo Yii::app()->db->createCommand($sql)->queryScalar();
     }
 
 }
