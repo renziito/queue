@@ -1,8 +1,9 @@
 <?php
 
-class TopController extends Controller {
-
-    public function actionBitter() {
+class TopController extends Controller
+{
+    public function actionBitterSE()
+    {
         $limit = Yii::app()->request->getQuery("limit", 5);
         $url = ConstApp::URLAPI . "sessions/" . ConstApp::CLIENID;
 
@@ -31,7 +32,21 @@ class TopController extends Controller {
         echo trim($response, ' ,');
     }
 
-    public function actionGifter() {
+    public function actionBitter()
+    {
+        $db = 'neonpudd_queue.event';
+        if (Yii::app()->request->hostInfo == "http://localhost") {
+            $db = 'db_queue.event';
+        }
+
+        $limit = Yii::app()->request->getQuery("limit", 5);
+        $sql = "SELECT username, SUM(CASE amount WHEN 0 THEN 1 ELSE amount END) total FROM (";
+        $sql .= "SELECT * FROM " . $db . " WHERE gift = 1 AND state = 1 AND type = 'event') as f";
+        $sql .= " GROUP BY username ORDER BY 2 desc LIMIT " . $limit;
+    }
+
+    public function actionGifter()
+    {
         $db = 'neonpudd_queue.event';
         if (Yii::app()->request->hostInfo == "http://localhost") {
             $db = 'db_queue.event';
@@ -51,5 +66,4 @@ class TopController extends Controller {
         }
         echo trim($response, ' ,');
     }
-
 }
