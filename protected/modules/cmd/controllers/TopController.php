@@ -40,9 +40,16 @@ class TopController extends Controller
         }
 
         $limit = Yii::app()->request->getQuery("limit", 5);
-        $sql = "SELECT username, SUM(CASE amount WHEN 0 THEN 1 ELSE amount END) total FROM (";
-        $sql .= "SELECT * FROM " . $db . " WHERE gift = 1 AND state = 1 AND type = 'event') as f";
+        $sql = "SELECT username, SUM(amount) total FROM ".$db;
+        $sql .= " WHERE type = 'cheer' AND state = 1";
         $sql .= " GROUP BY username ORDER BY 2 desc LIMIT " . $limit;
+
+        $bitters = $cmd = Yii::app()->db->createCommand($sql)->queryAll();
+        foreach ($bitters as $k => $bitter) {
+            $response .= $k + 1 . '. ' . $bitter['username'];
+            $response .= ' - ' . $bitter['total'] . ', ';
+        }
+        echo trim($response, ' ,');
     }
 
     public function actionGifter()
