@@ -59,10 +59,9 @@ class TopController extends Controller
             $db = 'db_queue.event';
         }
 
-
         $limit = Yii::app()->request->getQuery("limit", 5);
-        $sql = "SELECT username, SUM(CASE amount WHEN 0 THEN 1 ELSE amount END) total FROM (";
-        $sql .= "SELECT * FROM " . $db . " WHERE gift = 1 AND state = 1 AND type = 'event') as f";
+        $sql = "SELECT username, (CASE sum(amount) WHEN 0 then count(amount) ELSE amount END) as total";
+        $sql .= " FROM db_queue.event as a WHERE a.gift = 1 AND a.state = 1 AND a.type = 'event'";
         $sql .= " GROUP BY username ORDER BY 2 desc LIMIT " . $limit;
 
         $gifters = $cmd = Yii::app()->db->createCommand($sql)->queryAll();
