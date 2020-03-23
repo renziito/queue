@@ -60,7 +60,8 @@ class TopController extends Controller {
         $limit = Yii::app()->request->getQuery("limit", 5);
 
         $sql = "SELECT  b.username as users, b.amount, b.register_event as date";
-        $sql .= " FROM " . $db . " as b WHERE b.gift = 1 AND b.state = 1 AND b.type = 'event' and b.amount > 0 ";
+        $sql .= " FROM " . $db . " as b WHERE b.gift = 1 AND b.state = 1 ";
+        $sql .= " AND text like '%gifted%' AND b.type = 'event' and b.amount > 0 ";
         $sql .= " ORDER BY 2,1 ";
 
         $comGifters = $cmd = Yii::app()->db->createCommand($sql)->queryAll();
@@ -75,6 +76,7 @@ class TopController extends Controller {
 
         $sql = "select * from " . $db . " as a where";
         $sql .= " a.gift = 1 AND a.state = 1 AND a.type = 'event' and a.amount = 0";
+        $sql .= " AND text like '%gifted%'";
         $sql .= " order by register_event";
 
         $indGifters = $cmd = Yii::app()->db->createCommand($sql)->queryAll();
