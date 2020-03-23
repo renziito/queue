@@ -1,9 +1,8 @@
 <?php
 
-class TopController extends Controller
-{
-    public function actionBitterSE()
-    {
+class TopController extends Controller {
+
+    public function actionBitterSE() {
         $limit = Yii::app()->request->getQuery("limit", 5);
         $url = ConstApp::URLAPI . "sessions/" . ConstApp::CLIENID;
 
@@ -32,15 +31,14 @@ class TopController extends Controller
         echo trim($response, ' ,');
     }
 
-    public function actionBitter()
-    {
+    public function actionBitter() {
         $db = 'neonpudd_queue.event';
         if (Yii::app()->request->hostInfo == "http://localhost") {
             $db = 'db_queue.event';
         }
 
         $limit = Yii::app()->request->getQuery("limit", 5);
-        $sql = "SELECT username, SUM(amount) total FROM ".$db;
+        $sql = "SELECT username, SUM(amount) total FROM " . $db;
         $sql .= " WHERE type = 'cheer' AND state = 1";
         $sql .= " GROUP BY username ORDER BY 2 desc LIMIT " . $limit;
 
@@ -52,8 +50,7 @@ class TopController extends Controller
         echo trim($response, ' ,');
     }
 
-    public function actionGifter()
-    {
+    public function actionGifter() {
         $db = 'neonpudd_queue.event';
         if (Yii::app()->request->hostInfo == "http://localhost") {
             $db = 'db_queue.event';
@@ -61,7 +58,7 @@ class TopController extends Controller
 
         $limit = Yii::app()->request->getQuery("limit", 5);
         $sql = "SELECT username, (CASE sum(amount) WHEN 0 then count(amount) ELSE amount END) as total";
-        $sql .= " FROM db_queue.event as a WHERE a.gift = 1 AND a.state = 1 AND a.type = 'event'";
+        $sql .= " FROM " . $db . " as a WHERE a.gift = 1 AND a.state = 1 AND a.type = 'event'";
         $sql .= " GROUP BY username ORDER BY 2 desc LIMIT " . $limit;
 
         $gifters = $cmd = Yii::app()->db->createCommand($sql)->queryAll();
@@ -72,4 +69,5 @@ class TopController extends Controller
         }
         echo trim($response, ' ,');
     }
+
 }
