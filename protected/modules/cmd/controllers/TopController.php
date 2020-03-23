@@ -56,16 +56,53 @@ class TopController extends Controller {
             $db = 'db_queue.event';
         }
 
+        $gifters = [];
         $limit = Yii::app()->request->getQuery("limit", 5);
-        $sql = "SELECT username, (CASE sum(amount) WHEN 0 then count(amount) ELSE amount END) as total";
-        $sql .= " FROM " . $db . " as a WHERE a.gift = 1 AND a.state = 1 AND a.type = 'event'";
-        $sql .= " GROUP BY username ORDER BY 2 desc LIMIT " . $limit;
 
-        $gifters = $cmd = Yii::app()->db->createCommand($sql)->queryAll();
+        $sql = "SELECT  b.username as users, b.amount, b.register_event as date";
+        $sql .= " FROM " . $db . " as b WHERE b.gift = 1 AND b.state = 1 AND b.type = 'event' and b.amount > 0 ";
+        $sql .= " ORDER BY 2,1 ";
+
+        $comGifters = $cmd = Yii::app()->db->createCommand($sql)->queryAll();
+
+        foreach ($comGifters as $comGifter) {
+            $gifters[$comGifter['users']] = [
+                'users' => $comGifter['users'],
+                'amount' => $comGifter['amount'],
+                'date' => $comGifter['date']
+            ];
+        }
+
+        $sql = "select * from " . $db . " as a where";
+        $sql .= " a.gift = 1 AND a.state = 1 AND a.type = 'event' and a.amount = 0";
+        $sql .= " order by register_event";
+
+        $indGifters = $cmd = Yii::app()->db->createCommand($sql)->queryAll();
+
+        foreach ($indGifters as $indGifter) {
+            if (isset($gifters[$indGifter['username']])) {
+                if ($indGifter['register_event'] > $gifters[$indGifter['username']]['date']) {
+                    $gifters[$indGifter['username']]['amount'] += 1;
+                }
+            } else {
+                $gifters[$indGifter['username']] = [
+                    'users' => $indGifter['username'],
+                    'amount' => 1,
+                    'date' => $indGifter['register_event']
+                ];
+            }
+        }
+
+        usort($gifters, function($a, $b) {
+            return $b['amount'] - $a['amount'];
+        });
+
         $response = "";
-        foreach ($gifters as $k => $gifter) {
-            $response .= $k + 1 . '. ' . $gifter['username'];
-            $response .= ' - ' . $gifter['total'] . ', ';
+        $k = 1;
+        for ($i = 0; $i < $limit; $i++) {
+            $response .= $k. '. ' . $gifters[$i]['users'];
+            $response .= ' - ' . $gifters[$i]['amount'] . ', ';
+            $k++;
         }
         echo trim($response, ' ,');
     }
